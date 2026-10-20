@@ -1,0 +1,15 @@
+{
+  "run_id": "run_026_coh50_disp35_seed101",
+  "cohesion": 50.0,
+  "displacement": 0.35,
+  "seed": 101,
+  "num_particles": 435,
+  "final_void_ratio": 5.859173756406833,
+  "final_bulk_density": 364.47538563443834,
+  "elapsed_seconds": 5.254485607147217,
+  "box_bounds": [
+    0.1,
+    0.1,
+    0.15622829165047117
+  ]
+}

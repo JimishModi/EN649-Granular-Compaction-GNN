@@ -1,0 +1,49 @@
+# LAMMPS Input Script Template for Granular Compaction with DMT/JKR Cohesion
+# Variables expected via -var: COHESION, DISPLACEMENT, SEED, NUM_PARTICLES, OUTPUT_DIR
+
+units           si
+atom_style      sphere
+boundary        f f f
+newton          off
+comm_modify     vel yes
+
+# Box dimensions
+region          reg block 0 0.10 0 0.10 0 0.25 units box
+create_box      1 reg
+
+# Neighbor settings
+neighbor        0.002 bin
+neigh_modify    delay 0 every 1 check yes
+
+# Contact model (granular Hertzian contact with DMT cohesion)
+# pair_style granular / Hertzian with surface energy cohesion
+pair_style      granular
+pair_coeff      * * hertz 1e7 0.3 tangential history 1e5 0.2 0.5 rolling sds 1e3 0.1 0.2 cohesion dmt ${COHESION}
+
+# Insert particles
+region          ins_reg block 0.005 0.095 0.005 0.095 0.005 0.200 units box
+create_atoms    1 random ${NUM_PARTICLES} ${SEED} ins_reg
+
+set             type 1 mass 0.0013 # ~5mm quartz spheres
+
+# Gravity
+fix             1 all gravity 9.81 vector 0 0 -1
+
+# Bottom boundary wall
+fix             bw all wall/gran hertz 1e7 0.3 tangential history 1e5 0.2 0.5 zplane 0.0 NULL
+
+# Top moving piston wall
+variable        pz equal 0.25-${DISPLACEMENT}*0.25*(step/10000)
+fix             tw all wall/gran hertz 1e7 0.3 tangential history 1e5 0.2 0.5 zplane 0.25 NULL
+
+# Damping for stability
+fix             2 all viscous 0.05
+
+timestep        0.0001
+thermo          100
+thermo_style    custom step atoms ke vol
+
+# Dump particle positions and velocities
+dump            1 all custom 100 ${OUTPUT_DIR}/dump.compaction id type x y z vx vy vz fx fy fz
+
+run             5000

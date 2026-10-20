@@ -1,0 +1,769 @@
+{
+  "num_samples": 48,
+  "cohesion_levels": [
+    0.0,
+    50.0,
+    150.0
+  ],
+  "displacement_levels": [
+    0.15,
+    0.25,
+    0.35,
+    0.45
+  ],
+  "mean_void_ratio": 6.2418561439260225,
+  "std_void_ratio": 1.267141345995726,
+  "mean_bulk_density": 356.1721291101864,
+  "std_bulk_density": 64.07257554747285,
+  "connectivity_radius": 0.015,
+  "sequence_length": 30,
+  "dim": 3,
+  "normalization_stats": {
+    "velocity": {
+      "mean": [
+        4.342393895505024e-20,
+        1.9064168321729375e-20,
+        -0.183482859887192
+      ],
+      "std": [
+        0.0843770504463127,
+        0.08113876618421195,
+        1.1976505482066255
+      ]
+    },
+    "acceleration": {
+      "mean": [
+        5.84342324037682e-21,
+        -7.304279050471024e-21,
+        -0.024334376473505247
+      ],
+      "std": [
+        0.05393521646135235,
+        0.051583880293399456,
+        0.6461675844896998
+      ]
+    }
+  },
+  "runs": [
+    {
+      "run_id": "run_001_coh0_disp15_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.15,
+      "seed": 42,
+      "num_particles": 470,
+      "final_void_ratio": 6.313319551211857,
+      "final_bulk_density": 341.8420298051568,
+      "elapsed_seconds": 1.9103679656982422,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17997452264096056
+      ]
+    },
+    {
+      "run_id": "run_002_coh0_disp15_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.15,
+      "seed": 101,
+      "num_particles": 469,
+      "final_void_ratio": 6.325844302074057,
+      "final_bulk_density": 341.25759392568744,
+      "elapsed_seconds": 1.899329662322998,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17989916570843928
+      ]
+    },
+    {
+      "run_id": "run_003_coh0_disp15_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.15,
+      "seed": 202,
+      "num_particles": 443,
+      "final_void_ratio": 6.759423510547676,
+      "final_bulk_density": 322.18888382644093,
+      "elapsed_seconds": 1.6804184913635254,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17998313197158378
+      ]
+    },
+    {
+      "run_id": "run_004_coh0_disp15_seed303",
+      "cohesion": 0.0,
+      "displacement": 0.15,
+      "seed": 303,
+      "num_particles": 353,
+      "final_void_ratio": 8.733664444800775,
+      "final_bulk_density": 256.8405777882935,
+      "elapsed_seconds": 1.079425573348999,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17990767792399803
+      ]
+    },
+    {
+      "run_id": "run_005_coh0_disp25_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.25,
+      "seed": 42,
+      "num_particles": 383,
+      "final_void_ratio": 7.975555706826676,
+      "final_bulk_density": 278.53428597167937,
+      "elapsed_seconds": 1.341968297958374,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1799942961730559
+      ]
+    },
+    {
+      "run_id": "run_006_coh0_disp25_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.25,
+      "seed": 101,
+      "num_particles": 469,
+      "final_void_ratio": 6.325844302074057,
+      "final_bulk_density": 341.25759392568744,
+      "elapsed_seconds": 2.006171226501465,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17989916570843928
+      ]
+    },
+    {
+      "run_id": "run_007_coh0_disp25_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.25,
+      "seed": 202,
+      "num_particles": 440,
+      "final_void_ratio": 6.812328670846865,
+      "final_bulk_density": 320.0070177960136,
+      "elapsed_seconds": 1.8118572235107422,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17998313197158378
+      ]
+    },
+    {
+      "run_id": "run_008_coh0_disp25_seed303",
+      "cohesion": 0.0,
+      "displacement": 0.25,
+      "seed": 303,
+      "num_particles": 414,
+      "final_void_ratio": 7.303392287281141,
+      "final_bulk_density": 301.0817643566493,
+      "elapsed_seconds": 1.6219842433929443,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1799925458462164
+      ]
+    },
+    {
+      "run_id": "run_009_coh0_disp35_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.35,
+      "seed": 42,
+      "num_particles": 408,
+      "final_void_ratio": 6.4215070118701405,
+      "final_bulk_density": 336.8588072478324,
+      "elapsed_seconds": 1.7372374534606934,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1585443929679833
+      ]
+    },
+    {
+      "run_id": "run_010_coh0_disp35_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.35,
+      "seed": 101,
+      "num_particles": 353,
+      "final_void_ratio": 7.438132360759549,
+      "final_bulk_density": 296.2740916018252,
+      "elapsed_seconds": 1.0507051944732666,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1559623107667819
+      ]
+    },
+    {
+      "run_id": "run_011_coh0_disp35_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.35,
+      "seed": 202,
+      "num_particles": 434,
+      "final_void_ratio": 5.971639494278604,
+      "final_bulk_density": 358.59570794669867,
+      "elapsed_seconds": 1.8184213638305664,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.15842483859527867
+      ]
+    },
+    {
+      "run_id": "run_012_coh0_disp35_seed303",
+      "cohesion": 0.0,
+      "displacement": 0.35,
+      "seed": 303,
+      "num_particles": 501,
+      "final_void_ratio": 5.189580277137563,
+      "final_bulk_density": 403.9046087235096,
+      "elapsed_seconds": 2.6146066188812256,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.16236691839428802
+      ]
+    },
+    {
+      "run_id": "run_013_coh0_disp45_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.45,
+      "seed": 42,
+      "num_particles": 455,
+      "final_void_ratio": 4.771552881354448,
+      "final_bulk_density": 433.1589870858653,
+      "elapsed_seconds": 3.115314245223999,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1375
+      ]
+    },
+    {
+      "run_id": "run_014_coh0_disp45_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.45,
+      "seed": 101,
+      "num_particles": 424,
+      "final_void_ratio": 5.117517377063156,
+      "final_bulk_density": 408.66250897356304,
+      "elapsed_seconds": 2.6314055919647217,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.13581248339325921
+      ]
+    },
+    {
+      "run_id": "run_015_coh0_disp45_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.45,
+      "seed": 202,
+      "num_particles": 505,
+      "final_void_ratio": 4.200112002012423,
+      "final_bulk_density": 480.7588757766198,
+      "elapsed_seconds": 6.730203866958618,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1375
+      ]
+    },
+    {
+      "run_id": "run_016_coh0_disp45_seed303",
+      "cohesion": 0.0,
+      "displacement": 0.45,
+      "seed": 303,
+      "num_particles": 422,
+      "final_void_ratio": 5.1469742874037445,
+      "final_bulk_density": 406.704157706166,
+      "elapsed_seconds": 4.847360610961914,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.13582273448389448
+      ]
+    },
+    {
+      "run_id": "run_017_coh50_disp15_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.15,
+      "seed": 42,
+      "num_particles": 478,
+      "final_void_ratio": 6.19152961650379,
+      "final_bulk_density": 347.63119020782,
+      "elapsed_seconds": 4.202933311462402,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17998975766987776
+      ]
+    },
+    {
+      "run_id": "run_018_coh50_disp15_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.15,
+      "seed": 101,
+      "num_particles": 454,
+      "final_void_ratio": 6.565934210165507,
+      "final_bulk_density": 330.42846138432276,
+      "elapsed_seconds": 3.949118137359619,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17985273054697734
+      ]
+    },
+    {
+      "run_id": "run_019_coh50_disp15_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.15,
+      "seed": 202,
+      "num_particles": 356,
+      "final_void_ratio": 8.653326971418968,
+      "final_bulk_density": 258.9780712288997,
+      "elapsed_seconds": 3.2393195629119873,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17993913850358617
+      ]
+    },
+    {
+      "run_id": "run_020_coh50_disp15_seed303",
+      "cohesion": 50.0,
+      "displacement": 0.15,
+      "seed": 303,
+      "num_particles": 461,
+      "final_void_ratio": 6.455404826433391,
+      "final_bulk_density": 335.32719660455797,
+      "elapsed_seconds": 5.020931243896484,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17995784266453888
+      ]
+    },
+    {
+      "run_id": "run_021_coh50_disp25_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.25,
+      "seed": 42,
+      "num_particles": 440,
+      "final_void_ratio": 6.812617674604591,
+      "final_bulk_density": 319.9951801207946,
+      "elapsed_seconds": 4.70948052406311,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17998979014018607
+      ]
+    },
+    {
+      "run_id": "run_022_coh50_disp25_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.25,
+      "seed": 101,
+      "num_particles": 544,
+      "final_void_ratio": 5.3191717168113835,
+      "final_bulk_density": 395.6214694006584,
+      "elapsed_seconds": 35.65622615814209,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17999385521025046
+      ]
+    },
+    {
+      "run_id": "run_023_coh50_disp25_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.25,
+      "seed": 202,
+      "num_particles": 388,
+      "final_void_ratio": 7.827077175835976,
+      "final_bulk_density": 283.21945647464395,
+      "elapsed_seconds": 3.4531171321868896,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17932765589352095
+      ]
+    },
+    {
+      "run_id": "run_024_coh50_disp25_seed303",
+      "cohesion": 50.0,
+      "displacement": 0.25,
+      "seed": 303,
+      "num_particles": 383,
+      "final_void_ratio": 7.97581342230352,
+      "final_bulk_density": 278.526288635622,
+      "elapsed_seconds": 3.397549629211426,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17999946435621722
+      ]
+    },
+    {
+      "run_id": "run_025_coh50_disp35_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.35,
+      "seed": 42,
+      "num_particles": 471,
+      "final_void_ratio": 5.342612849427544,
+      "final_bulk_density": 394.15932508408406,
+      "elapsed_seconds": 6.590610504150391,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1564183615687575
+      ]
+    },
+    {
+      "run_id": "run_026_coh50_disp35_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.35,
+      "seed": 101,
+      "num_particles": 435,
+      "final_void_ratio": 5.859173756406833,
+      "final_bulk_density": 364.47538563443834,
+      "elapsed_seconds": 5.254485607147217,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.15622829165047117
+      ]
+    },
+    {
+      "run_id": "run_027_coh50_disp35_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.35,
+      "seed": 202,
+      "num_particles": 371,
+      "final_void_ratio": 7.0424752967511814,
+      "final_bulk_density": 310.84957152555927,
+      "elapsed_seconds": 3.2455649375915527,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.15622922109367973
+      ]
+    },
+    {
+      "run_id": "run_028_coh50_disp35_seed303",
+      "cohesion": 50.0,
+      "displacement": 0.35,
+      "seed": 303,
+      "num_particles": 501,
+      "final_void_ratio": 4.962920722931627,
+      "final_bulk_density": 419.2576282937555,
+      "elapsed_seconds": 7.931603908538818,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.15642111727478783
+      ]
+    },
+    {
+      "run_id": "run_029_coh50_disp45_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.45,
+      "seed": 42,
+      "num_particles": 351,
+      "final_void_ratio": 6.275188479885162,
+      "final_bulk_density": 343.6337088602084,
+      "elapsed_seconds": 5.6078948974609375,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.13370572028904668
+      ]
+    },
+    {
+      "run_id": "run_030_coh50_disp45_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.45,
+      "seed": 101,
+      "num_particles": 520,
+      "final_void_ratio": 3.910912826743725,
+      "final_bulk_density": 509.07032728937145,
+      "elapsed_seconds": 38.54621386528015,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1337100930439557
+      ]
+    },
+    {
+      "run_id": "run_031_coh50_disp45_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.45,
+      "seed": 202,
+      "num_particles": 405,
+      "final_void_ratio": 5.296606044689032,
+      "final_bulk_density": 397.0392910492888,
+      "elapsed_seconds": 9.993436336517334,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.13352425622467298
+      ]
+    },
+    {
+      "run_id": "run_032_coh50_disp45_seed303",
+      "cohesion": 50.0,
+      "displacement": 0.45,
+      "seed": 303,
+      "num_particles": 437,
+      "final_void_ratio": 4.842397057744975,
+      "final_bulk_density": 427.90655535571216,
+      "elapsed_seconds": 14.974742889404297,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.13368144403995408
+      ]
+    },
+    {
+      "run_id": "run_033_coh150_disp15_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.15,
+      "seed": 42,
+      "num_particles": 440,
+      "final_void_ratio": 6.812617674604591,
+      "final_bulk_density": 319.9951801207946,
+      "elapsed_seconds": 9.107425928115845,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17998979014018607
+      ]
+    },
+    {
+      "run_id": "run_034_coh150_disp15_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.15,
+      "seed": 101,
+      "num_particles": 375,
+      "final_void_ratio": 8.167291722309324,
+      "final_bulk_density": 272.7086772984494,
+      "elapsed_seconds": 4.728173017501831,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17999935205075931
+      ]
+    },
+    {
+      "run_id": "run_035_coh150_disp15_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.15,
+      "seed": 202,
+      "num_particles": 468,
+      "final_void_ratio": 6.34258271443547,
+      "final_bulk_density": 340.47965099324193,
+      "elapsed_seconds": 9.778187036514282,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1799257505295578
+      ]
+    },
+    {
+      "run_id": "run_036_coh150_disp15_seed303",
+      "cohesion": 150.0,
+      "displacement": 0.15,
+      "seed": 303,
+      "num_particles": 520,
+      "final_void_ratio": 5.608570654563263,
+      "final_bulk_density": 378.2966288290696,
+      "elapsed_seconds": 39.39572334289551,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17993245416557696
+      ]
+    },
+    {
+      "run_id": "run_037_coh150_disp25_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.25,
+      "seed": 42,
+      "num_particles": 513,
+      "final_void_ratio": 5.700527410451878,
+      "final_bulk_density": 373.10495829035074,
+      "elapsed_seconds": 38.15416073799133,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17998030173114024
+      ]
+    },
+    {
+      "run_id": "run_038_coh150_disp25_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.25,
+      "seed": 101,
+      "num_particles": 355,
+      "final_void_ratio": 8.683758861594356,
+      "final_bulk_density": 258.16421450919876,
+      "elapsed_seconds": 3.333920478820801,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17999935205075931
+      ]
+    },
+    {
+      "run_id": "run_039_coh150_disp25_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.25,
+      "seed": 202,
+      "num_particles": 488,
+      "final_void_ratio": 6.04315987786701,
+      "final_bulk_density": 354.95431643631997,
+      "elapsed_seconds": 10.22248125076294,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17996414655363846
+      ]
+    },
+    {
+      "run_id": "run_040_coh150_disp25_seed303",
+      "cohesion": 150.0,
+      "displacement": 0.25,
+      "seed": 303,
+      "num_particles": 362,
+      "final_void_ratio": 8.491667262471472,
+      "final_bulk_density": 263.38892113133784,
+      "elapsed_seconds": 6.915687799453735,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.17990767792399803
+      ]
+    },
+    {
+      "run_id": "run_041_coh150_disp35_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.35,
+      "seed": 42,
+      "num_particles": 400,
+      "final_void_ratio": 6.4608225364425484,
+      "final_bulk_density": 335.08369724500164,
+      "elapsed_seconds": 5.6123223304748535,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1562591018015005
+      ]
+    },
+    {
+      "run_id": "run_042_coh150_disp35_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.35,
+      "seed": 101,
+      "num_particles": 451,
+      "final_void_ratio": 5.624052521441877,
+      "final_bulk_density": 377.41246644823065,
+      "elapsed_seconds": 8.87773084640503,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.15642239511663317
+      ]
+    },
+    {
+      "run_id": "run_043_coh150_disp35_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.35,
+      "seed": 202,
+      "num_particles": 352,
+      "final_void_ratio": 7.476586179246273,
+      "final_bulk_density": 294.9300516900185,
+      "elapsed_seconds": 5.230457305908203,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.15622922109367973
+      ]
+    },
+    {
+      "run_id": "run_044_coh150_disp35_seed303",
+      "cohesion": 150.0,
+      "displacement": 0.35,
+      "seed": 303,
+      "num_particles": 510,
+      "final_void_ratio": 4.85769271017401,
+      "final_bulk_density": 426.78920245472113,
+      "elapsed_seconds": 10.092910528182983,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.15642111727478783
+      ]
+    },
+    {
+      "run_id": "run_045_coh150_disp45_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.45,
+      "seed": 42,
+      "num_particles": 411,
+      "final_void_ratio": 5.207520342975644,
+      "final_bulk_density": 402.7373027990106,
+      "elapsed_seconds": 9.24698257446289,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1335852770995351
+      ]
+    },
+    {
+      "run_id": "run_046_coh150_disp45_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.45,
+      "seed": 101,
+      "num_particles": 533,
+      "final_void_ratio": 3.7911344651158276,
+      "final_bulk_density": 521.7970854716057,
+      "elapsed_seconds": 18.45434808731079,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1337100930439557
+      ]
+    },
+    {
+      "run_id": "run_047_coh150_disp45_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.45,
+      "seed": 202,
+      "num_particles": 477,
+      "final_void_ratio": 4.344068181362214,
+      "final_bulk_density": 467.80840272938735,
+      "elapsed_seconds": 11.649128198623657,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.13347163844386148
+      ]
+    },
+    {
+      "run_id": "run_048_coh150_disp45_seed303",
+      "cohesion": 150.0,
+      "displacement": 0.45,
+      "seed": 303,
+      "num_particles": 372,
+      "final_void_ratio": 5.857490677193392,
+      "final_bulk_density": 364.564841234781,
+      "elapsed_seconds": 7.746089220046997,
+      "box_bounds": [
+        0.1,
+        0.1,
+        0.1335693424678938
+      ]
+    }
+  ]
+}
