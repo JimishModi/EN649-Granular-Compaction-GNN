@@ -125,7 +125,7 @@ Ensure Python 3.10+ and a CUDA-capable GPU (tested on NVIDIA GeForce RTX 4060 La
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/EN649-Granular-Compaction-GNN.git
+git clone https://github.com/JimishModi/EN649-Granular-Compaction-GNN.git
 cd EN649-Granular-Compaction-GNN
 
 # Install dependencies

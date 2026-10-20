@@ -177,8 +177,9 @@ def build_pdf_report(pdf_filename="EN649_Project_Report.pdf"):
     # Title & Metadata
     story.append(Paragraph("Graph Neural Network Surrogate for 3D Granular Compaction with Inter-Particle Cohesion", title_style))
     story.append(Paragraph("A Benchmark Against Discrete Element Method Physics Simulation & GNS Baselines", subtitle_style))
-    story.append(Paragraph("<b>Course:</b> EN 649 Machine Learning in Mechanics & Materials &nbsp;|&nbsp; <b>Hardware:</b> NVIDIA GeForce RTX 4060 GPU &nbsp;|&nbsp; October 2026", author_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#0F2C59'), spaceAfter=12))
+    story.append(Paragraph("<b>Author:</b> Jimish Modi &nbsp;|&nbsp; <b>Course:</b> EN 649 Machine Learning in Mechanics &amp; Materials &nbsp;|&nbsp; October 2026", author_style))
+    story.append(Paragraph("<b>GitHub Code &amp; Models:</b> <font color='#1E3A8A'><u><a href='https://github.com/JimishModi/EN649-Granular-Compaction-GNN'>https://github.com/JimishModi/EN649-Granular-Compaction-GNN</a></u></font>", author_style))
+    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#0F2C59'), spaceAfter=10))
 
     # Abstract Box
     abstract_text = (

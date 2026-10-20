@@ -1,8 +1,9 @@
 # EN 649 Course Project: Graph Neural Network Surrogate for 3D Granular Compaction
 
-**Author:** EN 649 Course Project  
+**Author:** Jimish Modi  
 **Course:** EN 649: Machine Learning in Mechanics & Materials  
 **Institution:** Department of Energy Science and Engineering  
+**GitHub Repository:** [https://github.com/JimishModi/EN649-Granular-Compaction-GNN](https://github.com/JimishModi/EN649-Granular-Compaction-GNN)  
 **Date:** October 2026  
 
 ---
