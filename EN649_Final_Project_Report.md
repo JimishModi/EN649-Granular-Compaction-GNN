@@ -1,7 +1,7 @@
 # EN 649 Course Project: High-Fidelity DEM Simulation and Graph Neural Network Surrogates for 3D Cohesive Granular Compaction
 
 **Author:** Jimish Modi  
-**Course:** EN 649 (Machine Learning in Mechanics & Materials / Introduction to Particulate Flow)  
+**Course:** EN 649 (Introduction to Particulate Flow)  
 **Institution:** Johns Hopkins University  
 **Date:** November 2026  
 **Repository:** [github.com/JimishModi/Course-Project-EN-649](https://github.com/JimishModi/Course-Project-EN-649)  
