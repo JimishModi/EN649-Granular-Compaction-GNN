@@ -163,13 +163,7 @@ def predict(device: str):
     for example_i, features in enumerate(ds):
       print(f"processing example number {example_i}")
       positions = features[0].to(device)
-      if metadata['sequence_length'] is not None:
-        # If `sequence_length` is predefined in metadata,
-        nsteps = metadata['sequence_length'] - INPUT_SEQUENCE_LENGTH
-      else:
-        # If no predefined `sequence_length`, then get the sequence length
-        sequence_length = positions.shape[1]
-        nsteps = sequence_length - INPUT_SEQUENCE_LENGTH
+      nsteps = positions.shape[1] - INPUT_SEQUENCE_LENGTH
       particle_type = features[1].to(device)
       if material_property_as_feature:
         material_property = features[2].to(device)

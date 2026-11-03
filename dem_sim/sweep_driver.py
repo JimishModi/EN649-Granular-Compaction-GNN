@@ -1,75 +1,121 @@
 """
-Multi-core Sweep Driver for DEM Compaction Simulations.
-Sweeps cohesion levels, piston displacements, and packing seeds.
-Supports both LAMMPS binary (in WSL) and high-performance Python DEM fallback.
+Multi-core Sweep Driver for Granular DEM Compaction Simulations.
+================================================================
+Executes the revised 32-run parameter matrix:
+- 4 Cohesion levels:   {0.0, 50.0, 100.0, 150.0} kPa
+- 8 Packing seeds:     {11, 22, 33, 44, 55, 66, 77, 88}
+- Compaction to 13% axial strain at constant piston velocity v = 0.05 m/s
+- Logging 16 strain snapshots per run (total 512 state graphs across sweep)
+Total = 4 x 8 = 32 runs.
+
+Particle count is a deterministic function of seed:
+N(seed_idx) = 380 + seed_idx * 10 in [380, 450].
 """
 
 import os
 import sys
 import json
 import time
-import subprocess
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
-# Add parent directory to import python_dem if needed
+# Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from python_dem import ParticleBedDEM
 
+SEEDS = [11, 22, 33, 44, 55, 66, 77, 88]
+
+def get_deterministic_particle_count(seed):
+    """
+    Deterministic function mapping seed to particle count.
+    Avoids unseeded random variations while ensuring realistic physical variance across beds.
+    """
+    if seed in SEEDS:
+        idx = SEEDS.index(seed)
+        return 380 + idx * 10 # 380, 390, 400, 410, 420, 430, 440, 450
+    return 380 + (int(seed) % 8) * 10
+
 def run_single_simulation(run_info):
     """
-    Executes a single simulation instance with given parameters.
+    Executes a single simulation instance with given parameters and saves outputs.
     """
-    run_id, cohesion, displacement, seed, num_particles, output_dir, use_lammps = run_info
+    run_id, cohesion, max_strain, seed, num_particles, output_dir = run_info
     os.makedirs(output_dir, exist_ok=True)
     start_time = time.time()
     
-    if use_lammps:
-        # Construct LAMMPS command inside WSL
-        cmd = f"lammps -var COHESION {cohesion} -var DISPLACEMENT {displacement} -var SEED {seed} -var NUM_PARTICLES {num_particles} -var OUTPUT_DIR {output_dir} -in dem_sim/in.compaction.template"
-        try:
-            res = subprocess.run(["wsl", "-e", "bash", "-c", cmd], capture_output=True, text=True, timeout=120)
-            elapsed = time.time() - start_time
-            if res.returncode == 0:
-                return {"status": "SUCCESS", "engine": "LAMMPS", "run_id": run_id, "elapsed": elapsed, "output_dir": output_dir}
-        except Exception:
-            pass
-            
-    # Python DEM Fallback
-    sim = ParticleBedDEM(num_particles=num_particles, cohesion=cohesion, displacement=displacement, seed=seed)
-    res = sim.run_simulation(total_steps=150, dt=1e-4, dump_interval=5)
+    sim = ParticleBedDEM(
+        num_particles=num_particles,
+        cohesion=cohesion,
+        max_strain=max_strain,
+        seed=seed,
+        piston_velocity=0.05
+    )
+    res = sim.run_simulation(settle_steps=4000, num_snapshots=16)
     elapsed = time.time() - start_time
     
-    # Save results to output_dir in numpy/json format
+    # Save trajectory and velocity arrays
     np.savez_compressed(
         os.path.join(output_dir, "run_data.npz"),
-        trajectory=res["trajectory"],
-        velocities=res["velocities"],
-        wall_forces=res["wall_forces"]
+        settled_positions=res["settled_positions"],
+        snapshot_strains=res["snapshot_strains"],
+        snapshot_forces=res["snapshot_forces"],
+        snapshot_stresses=res["snapshot_stresses"],
+        snapshot_trajectories=res["snapshot_trajectories"],
+        snapshot_coordinations=res["snapshot_coordinations"],
+        snapshot_tensile_fractions=res["snapshot_tensile_fractions"],
+        snapshot_elastic_energies=res["snapshot_elastic_energies"],
+        snapshot_inertial_numbers=res["snapshot_inertial_numbers"],
+        snapshot_void_ratios=res["snapshot_void_ratios"],
+        snapshot_densities=res["snapshot_densities"],
+        ke_history=res["ke_history"]
     )
     
+    # Save run metadata
     meta = {
         "run_id": run_id,
-        "cohesion": cohesion,
-        "displacement": displacement,
-        "seed": seed,
-        "num_particles": num_particles,
-        "final_void_ratio": res["final_void_ratio"],
-        "final_bulk_density": res["final_bulk_density"],
-        "elapsed_seconds": elapsed,
+        "cohesion": float(cohesion),
+        "max_strain": float(max_strain),
+        "seed": int(seed),
+        "num_particles": int(num_particles),
+        "settled_bed_height": float(res["settled_bed_height"]),
+        "phi_settled": float(res["phi_settled"]),
+        "e_settled": float(res["e_settled"]),
+        "settled_overlap_ratio": float(res["settled_overlap_ratio"]),
+        "settled_coordination": float(res["settled_coordination"]),
+        "final_piston_height": float(res["final_piston_height"]),
+        "final_void_ratio": float(res["final_void_ratio"]),
+        "final_bulk_density": float(res["final_bulk_density"]),
+        "peak_wall_force": float(res["peak_wall_force"]),
+        "peak_axial_stress": float(res["peak_axial_stress"]),
+        "final_coordination": float(res["final_coordination"]),
+        "final_tensile_fraction": float(res["final_tensile_fraction"]),
+        "final_elastic_energy": float(res["final_elastic_energy"]),
+        "mean_inertial_number": float(res["mean_inertial_number"]),
+        "gamma_work_of_adhesion": float(res["gamma_work_of_adhesion"]),
+        "f_pull_off": float(res["f_pull_off"]),
+        "bond_number": float(res["bond_number"]),
+        "settle_wall_time_sec": float(res["settle_wall_time_sec"]),
+        "compact_wall_time_sec": float(res["compact_wall_time_sec"]),
+        "elapsed_seconds": float(elapsed),
         "box_bounds": res["box_bounds"]
     }
     
     with open(os.path.join(output_dir, "metadata.json"), "w") as f:
         json.dump(meta, f, indent=2)
         
-    return {"status": "SUCCESS", "engine": "PythonDEM", "run_id": run_id, "elapsed": elapsed, "output_dir": output_dir, "meta": meta}
+    return {
+        "status": "SUCCESS",
+        "engine": "PythonDEM",
+        "run_id": run_id,
+        "elapsed": elapsed,
+        "output_dir": output_dir,
+        "meta": meta
+    }
 
-
-def execute_sweep(num_workers=4, use_lammps=False):
-    cohesion_levels = [0.0, 50.0, 150.0]        # 3 cohesion levels ("materials")
-    displacement_levels = [0.15, 0.25, 0.35, 0.45] # 4 displacement ratios
-    seeds = [42, 101, 202, 303]                # 4 seeds
+def execute_sweep(num_workers=4):
+    cohesion_levels = [0.0, 50.0, 100.0, 150.0]        # 4 cohesion levels (kPa)
+    max_strain = 0.13                                  # 13% axial strain
+    seeds = SEEDS                                      # 8 seeds
     
     base_output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
     os.makedirs(base_output_dir, exist_ok=True)
@@ -77,15 +123,14 @@ def execute_sweep(num_workers=4, use_lammps=False):
     tasks = []
     run_counter = 0
     for coh in cohesion_levels:
-        for disp in displacement_levels:
-            for seed in seeds:
-                run_counter += 1
-                run_id = f"run_{run_counter:03d}_coh{int(coh)}_disp{int(disp*100)}_seed{seed}"
-                out_dir = os.path.join(base_output_dir, run_id)
-                num_particles = np.random.randint(350, 550)
-                tasks.append((run_id, coh, disp, seed, num_particles, out_dir, use_lammps))
-                
-    print(f"--- Launching DEM Simulation Sweep ({len(tasks)} runs across {num_workers} parallel workers) ---")
+        for seed in seeds:
+            run_counter += 1
+            run_id = f"run_{run_counter:03d}_coh{int(coh)}_seed{seed}"
+            out_dir = os.path.join(base_output_dir, run_id)
+            num_particles = get_deterministic_particle_count(seed)
+            tasks.append((run_id, coh, max_strain, seed, num_particles, out_dir))
+            
+    print(f"--- Launching Revised DEM Simulation Sweep ({len(tasks)} runs across {num_workers} parallel workers) ---")
     start_total = time.time()
     results = []
     
@@ -94,11 +139,19 @@ def execute_sweep(num_workers=4, use_lammps=False):
         for idx, future in enumerate(as_completed(futures), 1):
             res = future.result()
             results.append(res)
-            print(f"[{idx}/{len(tasks)}] Completed Run {res['run_id']} ({res['engine']}) in {res['elapsed']:.2f}s")
-            
-    total_time = time.time() - start_total
-    print(f"\n=== DEM Sweep Complete! Total Time: {total_time:.2f} seconds ===")
+            meta = res["meta"]
+            print(f"[{idx:02d}/{len(tasks):02d}] {res['run_id']} finished in {res['elapsed']:.2f}s | "
+                  f"N={meta['num_particles']} | H_set={meta['settled_bed_height']*100:.1f}cm | "
+                  f"phi={meta['phi_settled']:.3f} | e={meta['final_void_ratio']:.3f} | "
+                  f"Peak F={meta['peak_wall_force']:.1f}N | I={meta['mean_inertial_number']:.2e}")
+                  
+    total_elapsed = time.time() - start_total
+    print(f"\nAll {len(results)} simulations completed successfully in {total_elapsed:.2f} seconds ({total_elapsed/60:.2f} minutes)!")
     return results
 
 if __name__ == "__main__":
-    execute_sweep(num_workers=4, use_lammps=False)
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--workers", type=int, default=4, help="Number of parallel worker processes")
+    args = parser.parse_args()
+    execute_sweep(num_workers=args.workers)

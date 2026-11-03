@@ -1,0 +1,32 @@
+{
+  "run_id": "run_013_coh50_seed55",
+  "cohesion": 50.0,
+  "max_strain": 0.13,
+  "seed": 55,
+  "num_particles": 420,
+  "settled_bed_height": 0.08961869404012138,
+  "phi_settled": 0.5007872021789391,
+  "e_settled": 0.9968561409895699,
+  "settled_overlap_ratio": 0.0238995167206605,
+  "settled_coordination": 4.480952380952381,
+  "final_piston_height": 0.07796869404012138,
+  "final_void_ratio": 0.7372744288066887,
+  "final_bulk_density": 1439.0357438906283,
+  "peak_wall_force": 58.221888809599115,
+  "peak_axial_stress": 11882.018124407981,
+  "final_coordination": 5.304761904761905,
+  "final_tensile_fraction": 0.012567324955116697,
+  "final_elastic_energy": 0.09179054058363889,
+  "mean_inertial_number": 0.04020420308183282,
+  "gamma_work_of_adhesion": 1.5,
+  "f_pull_off": 0.02356194490192345,
+  "bond_number": 1.8348623853211008,
+  "settle_wall_time_sec": 2.380821943283081,
+  "compact_wall_time_sec": 3.8641819953918457,
+  "elapsed_seconds": 6.873737812042236,
+  "box_bounds": [
+    0.07,
+    0.07,
+    0.07796869404012138
+  ]
+}

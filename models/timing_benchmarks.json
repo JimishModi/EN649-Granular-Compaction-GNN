@@ -1,0 +1,11 @@
+{
+  "dem_settle_sec": 1.8731165999924997,
+  "dem_compact_sec": 2.9699077000113903,
+  "dem_total_sec": 4.84302430000389,
+  "gnn_graph_build_ms": 0.4702000005636364,
+  "gnn_forward_gpu_ms": 1.7226999989361502,
+  "gnn_full_curve_sec": 0.02975609998247819,
+  "raw_compaction_speedup": 101.41083940891181,
+  "compaction_curve_speedup": 99.80836540273133,
+  "end_to_end_speedup": 2.545112082414958
+}

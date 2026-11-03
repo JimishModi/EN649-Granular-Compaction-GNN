@@ -1,6 +1,24 @@
 """
-Unified Training Script for PyG GNN Compaction Models on RTX 4060 GPU.
-Evaluates BaselineGNN and ImprovedGNN with 80/10/10 train/val/test split.
+Unified Cross-Validation Training & Benchmarking Engine for Granular Compaction Surrogates.
+=============================================================================================
+Evaluates:
+1. Closed-Form Kinematic Baseline (exact rho_b and e formulas)
+2. Mean Predictor Baseline (training set mean)
+3. Linear Ridge Regression Baseline (on global features)
+4. BaselineGNN (decoupled GNN with 64 hidden channels)
+5. ImprovedGNN (physics-conditioned message passing + dual pooling with 64 hidden channels)
+
+Targets Evaluated:
+- Peak Piston Compaction Force F_peak (N)
+- Instantaneous Force-Displacement Curve F(eps) (N)
+- Macroscopic Bulk Density rho_b (kg/m^3) [with closed-form baseline beside it]
+- Bed Void Ratio e (-) [with closed-form baseline beside it]
+
+Protocol:
+- 4-Fold GroupKFold strictly by packing seed (zero graph leakage across folds)
+- Train-only feature and target normalization per fold
+- Cosine Annealing learning rate schedule (T_max = epochs)
+- Reports Mean +/- Std across all 4 validation folds
 """
 
 import os
@@ -11,185 +29,317 @@ import torch
 import numpy as np
 import torch.nn as nn
 from torch_geometric.loader import DataLoader
+from sklearn.linear_model import Ridge
+from sklearn.metrics import r2_score, root_mean_squared_error, mean_absolute_error
 
-# Add current dir to import models and dataset
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from dataset import CompactionGraphDataset
-from baseline_gnn import BaselineGNN
-from improved_gnn import ImprovedGNN
+sys.path.insert(0, os.path.abspath("."))
+from models.dataset import CompactionGraphDataset
+from models.baseline_gnn import BaselineGNN
+from models.improved_gnn import ImprovedGNN
 
-def train_and_evaluate(epochs=150, batch_size=8, lr=1e-3):
+def evaluate_predictions(y_true, y_pred):
+    """Computes R^2, RMSE, MAE safely."""
+    # If variance is zero, r2_score is 0.0
+    var_y = np.var(y_true)
+    if var_y < 1e-12:
+        r2 = 0.0
+    else:
+        r2 = float(r2_score(y_true, y_pred))
+    rmse = float(root_mean_squared_error(y_true, y_pred))
+    mae = float(mean_absolute_error(y_true, y_pred))
+    return {"r2": r2, "rmse": rmse, "mae": mae}
+
+def run_cross_validation(epochs=70, batch_size=32, lr=1e-3, weight_decay=1e-4):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"=== Starting GNN Training Pipeline on Device: {device} ===")
+    print(f"=== Starting 4-Fold Grouped Cross-Validation on Device: {device} ===")
     
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    npz_path = os.path.join(base_dir, "dataset", "compaction_data.npz")
-    
-    if not os.path.exists(npz_path):
-        raise FileNotFoundError(f"Dataset file not found at {npz_path}. Run extract_dataset.py first!")
+    # 1. Load precomputed dataset and metadata
+    dataset = CompactionGraphDataset()
+    with open("dataset/metadata.json", "r") as f:
+        meta = json.load(f)
         
-    dataset = CompactionGraphDataset(npz_path)
-    num_samples = len(dataset)
+    cv_folds = meta["cv_folds"]
+    print(f"Loaded {len(dataset)} total graph snapshots across {meta['num_runs']} runs.")
     
-    # 80/10/10 Train / Val / Test Split
-    torch.manual_seed(42)
-    indices = torch.randperm(num_samples).tolist()
+    # Storage for fold metrics
+    models_to_test = ["closed_form", "mean_predictor", "linear_regression", "baseline_gnn", "improved_gnn"]
+    fold_results = {m: [] for m in models_to_test}
     
-    n_train = int(0.8 * num_samples)
-    n_val = int(0.1 * num_samples)
-    n_test = num_samples - n_train - n_val
+    # Timing records
+    timing_records = {"baseline_gnn_train_sec": [], "improved_gnn_train_sec": []}
     
-    train_idx = indices[:n_train]
-    val_idx = indices[n_train:n_train+n_val]
-    test_idx = indices[n_train+n_val:]
+    W = 0.070 # box width
+    R = 0.005 # particle radius
+    rho_solid = 2500.0 # kg/m^3
+    v_sphere = (4.0 / 3.0) * np.pi * (R**3)
+    m_particle = v_sphere * rho_solid
     
-    train_ds = [dataset[i] for i in train_idx]
-    val_ds = [dataset[i] for i in val_idx]
-    test_ds = [dataset[i] for i in test_idx]
-    
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
-    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
-    
-    # Target normalization statistics (from train set)
-    train_y = torch.cat([d.y for d in train_ds], dim=0) # (N, 2)
-    y_mean = train_y.mean(dim=0).to(device)
-    y_std = train_y.std(dim=0).to(device) + 1e-6
-    
-    ckpt_dir = os.path.join(base_dir, "models", "checkpoints")
-    os.makedirs(ckpt_dir, exist_ok=True)
-    
-    results = {}
-    
-    for model_name, model_cls in [("BaselineGNN", BaselineGNN), ("ImprovedGNN", ImprovedGNN)]:
-        print(f"\n--- Training {model_name} ---")
-        model = model_cls().to(device)
-        wd = 1e-3 if model_name == "ImprovedGNN" else 1e-4
-        optimizer = torch.optim.Adam(model.parameters(), lr=2e-3, weight_decay=wd)
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-            optimizer, T_max=150, eta_min=5e-5
-        )
+    for fold_name, fold_info in cv_folds.items():
+        test_seeds = fold_info["test_seeds"]
+        print(f"\n--- Processing {fold_name.upper()} (Test Seeds: {test_seeds}) ---")
+        
+        # Partition data into train and test graph lists
+        train_graphs = [d for d in dataset if d.seed not in test_seeds]
+        test_graphs = [d for d in dataset if d.seed in test_seeds]
+        
+        print(f"  Train: {len(train_graphs)} graphs | Test: {len(test_graphs)} graphs")
+        
+        # ---------------------------------------------------------
+        # Train-Only Normalization Statistics
+        # ---------------------------------------------------------
+        y_train_all = np.array([d.y.numpy().squeeze() for d in train_graphs]) # (N_train, 3)
+        y_mean = np.mean(y_train_all, axis=0) # [mean_F, mean_rho, mean_e]
+        y_std = np.std(y_train_all, axis=0) + 1e-8
+        
+        y_mean_t = torch.tensor(y_mean, dtype=torch.float, device=device)
+        y_std_t = torch.tensor(y_std, dtype=torch.float, device=device)
+        
+        # Ground truth test arrays
+        y_test_all = np.array([d.y.numpy().squeeze() for d in test_graphs])
+        test_f_true = y_test_all[:, 0]
+        test_rho_true = y_test_all[:, 1]
+        test_e_true = y_test_all[:, 2]
+        
+        # Run-level peak forces in test
+        test_run_indices = sorted(list(set(d.run_idx for d in test_graphs)))
+        test_peak_forces_true = []
+        for r in test_run_indices:
+            r_graphs = [d for d in test_graphs if d.run_idx == r]
+            test_peak_forces_true.append(r_graphs[0].peak_force)
+        test_peak_forces_true = np.array(test_peak_forces_true)
+        
+        # ---------------------------------------------------------
+        # 1. Closed-Form Kinematic Baseline
+        # ---------------------------------------------------------
+        cf_rho_pred = []
+        cf_e_pred = []
+        for d in test_graphs:
+            N_grains = d.num_particles
+            H_set = d.settled_height
+            eps = d.strain
+            
+            # Kinematic formulas:
+            # Current bed height: H(eps) = H_set * (1 - eps)
+            # Bed volume: V_bed = W^2 * H(eps)
+            v_bed = (W**2) * H_set * (1.0 - eps)
+            rho_calc = (N_grains * m_particle) / v_bed
+            e_calc = (v_bed - N_grains * v_sphere) / (N_grains * v_sphere)
+            cf_rho_pred.append(rho_calc)
+            cf_e_pred.append(e_calc)
+            
+        cf_rho_pred = np.array(cf_rho_pred)
+        cf_e_pred = np.array(cf_e_pred)
+        
+        fold_results["closed_form"].append({
+            "rho": evaluate_predictions(test_rho_true, cf_rho_pred),
+            "e": evaluate_predictions(test_e_true, cf_e_pred),
+            "force": {"r2": 0.0, "rmse": 0.0, "mae": 0.0},
+            "peak_force": {"r2": 0.0, "rmse": 0.0, "mae": 0.0}
+        })
+        
+        # ---------------------------------------------------------
+        # 2. Mean Predictor Baseline
+        # ---------------------------------------------------------
+        mean_f_pred = np.full_like(test_f_true, y_mean[0])
+        mean_rho_pred = np.full_like(test_rho_true, y_mean[1])
+        mean_e_pred = np.full_like(test_e_true, y_mean[2])
+        
+        # Training run-level peak forces
+        train_run_indices = sorted(list(set(d.run_idx for d in train_graphs)))
+        train_peak_forces = [train_graphs[i*17].peak_force for i in range(len(train_run_indices))]
+        mean_peak_pred = np.full_like(test_peak_forces_true, np.mean(train_peak_forces))
+        
+        fold_results["mean_predictor"].append({
+            "force": evaluate_predictions(test_f_true, mean_f_pred),
+            "rho": evaluate_predictions(test_rho_true, mean_rho_pred),
+            "e": evaluate_predictions(test_e_true, mean_e_pred),
+            "peak_force": evaluate_predictions(test_peak_forces_true, mean_peak_pred)
+        })
+        
+        # ---------------------------------------------------------
+        # 3. Linear Ridge Regression Baseline
+        # ---------------------------------------------------------
+        # Features: [gamma, eps, N, H_settled]
+        X_train_lin = np.array([[d.gamma, d.strain, d.num_particles, d.settled_height] for d in train_graphs])
+        X_test_lin = np.array([[d.gamma, d.strain, d.num_particles, d.settled_height] for d in test_graphs])
+        
+        lin_model = Ridge(alpha=1.0)
+        lin_model.fit(X_train_lin, y_train_all)
+        lin_preds = lin_model.predict(X_test_lin)
+        
+        # Run-level peak force ridge regression: features [gamma, N, H_settled]
+        X_train_peak = np.array([[train_graphs[i*17].gamma, train_graphs[i*17].num_particles, train_graphs[i*17].settled_height] for i in range(len(train_run_indices))])
+        X_test_peak = np.array([[r_graphs[0].gamma, r_graphs[0].num_particles, r_graphs[0].settled_height] for r in test_run_indices for r_graphs in [[d for d in test_graphs if d.run_idx == r]]])
+        lin_peak_model = Ridge(alpha=1.0)
+        lin_peak_model.fit(X_train_peak, train_peak_forces)
+        lin_peak_preds = lin_peak_model.predict(X_test_peak)
+        
+        fold_results["linear_regression"].append({
+            "force": evaluate_predictions(test_f_true, lin_preds[:, 0]),
+            "rho": evaluate_predictions(test_rho_true, lin_preds[:, 1]),
+            "e": evaluate_predictions(test_e_true, lin_preds[:, 2]),
+            "peak_force": evaluate_predictions(test_peak_forces_true, lin_peak_preds)
+        })
+        
+        # ---------------------------------------------------------
+        # 4. BaselineGNN Training
+        # ---------------------------------------------------------
+        train_loader = DataLoader(train_graphs, batch_size=batch_size, shuffle=True)
+        test_loader = DataLoader(test_graphs, batch_size=batch_size, shuffle=False)
+        
+        model_base = BaselineGNN(in_dim=5, edge_dim=5, hidden_dim=64, global_dim=4, out_dim=3).to(device)
+        optimizer_base = torch.optim.Adam(model_base.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler_base = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer_base, T_max=epochs)
         criterion = nn.MSELoss()
         
-        best_val_loss     = float('inf')
-        val_loss_window   = []            # smoothed over last 10 epochs
-        train_losses = []
-        val_losses = []
-        
-        start_time = time.time()
-        
-        for epoch in range(1, epochs + 1):
-            model.train()
-            epoch_loss = 0.0
+        t0_base = time.time()
+        for epoch in range(epochs):
+            model_base.train()
             for batch in train_loader:
                 batch = batch.to(device)
-                optimizer.zero_grad()
-                
-                # Scale global features u to [0, 1]
-                batch.u = batch.u / torch.tensor([150.0, 0.45], device=device)
-                
-                # Z-score normalize targets
-                norm_y = (batch.y - y_mean) / y_std
-                out = model(batch)
-                
-                loss = criterion(out, norm_y)
+                optimizer_base.zero_grad()
+                # Target normalized by training statistics
+                y_norm = (batch.y - y_mean_t) / y_std_t
+                pred = model_base(batch)
+                loss = criterion(pred, y_norm)
                 loss.backward()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-                optimizer.step()
-                epoch_loss += loss.item() * batch.num_graphs
-                
-            scheduler.step()
-            train_loss = epoch_loss / len(train_ds)
-            train_losses.append(train_loss)
-            
-            # Validation
-            model.eval()
-            val_loss = 0.0
-            with torch.no_grad():
-                for batch in val_loader:
-                    batch = batch.to(device)
-                    batch.u = batch.u / torch.tensor([150.0, 0.45], device=device)
-                    norm_y = (batch.y - y_mean) / y_std
-                    out = model(batch)
-                    v_loss = criterion(out, norm_y)
-                    val_loss += v_loss.item() * batch.num_graphs
-            val_loss /= len(val_ds)
-            val_losses.append(val_loss)
-            
-            # Use a smoothed window to reduce noise from tiny val set (4 samples)
-            val_loss_window.append(val_loss)
-            if len(val_loss_window) > 10:
-                val_loss_window.pop(0)
-            smoothed_val = float(np.mean(val_loss_window))
-            
-            if smoothed_val < best_val_loss:
-                best_val_loss = smoothed_val
-                torch.save(model.state_dict(), os.path.join(ckpt_dir, f"{model_name}_best.pth"))
-                    
-            if epoch % 50 == 0 or epoch == epochs:
-                print(f"Epoch {epoch:03d}/{epochs:03d} | Train MSE: {train_loss:.4f} | Val MSE: {val_loss:.4f} | SmoothedBest: {best_val_loss:.4f}")
-                
-        train_time = time.time() - start_time
+                optimizer_base.step()
+            scheduler_base.step()
+        timing_records["baseline_gnn_train_sec"].append(time.time() - t0_base)
         
-        # Test Set Evaluation
-        model.load_state_dict(torch.load(os.path.join(ckpt_dir, f"{model_name}_best.pth")))
-        model.eval()
-        
-        y_true_list = []
-        y_pred_list = []
-        
-        inf_start = time.time()
+        # Evaluate BaselineGNN on test graphs
+        model_base.eval()
+        base_preds = []
         with torch.no_grad():
             for batch in test_loader:
                 batch = batch.to(device)
-                batch.u = batch.u / torch.tensor([150.0, 0.45], device=device)
-                norm_out = model(batch)
-                # Un-normalize predictions
-                out = norm_out * y_std + y_mean
-                
-                y_true_list.append(batch.y.cpu().numpy())
-                y_pred_list.append(out.cpu().numpy())
-                
-        inf_time = (time.time() - inf_start) / len(test_ds)
+                pred_norm = model_base(batch)
+                pred_orig = pred_norm * y_std_t + y_mean_t
+                base_preds.append(pred_orig.cpu().numpy())
+        base_preds = np.concatenate(base_preds, axis=0)
         
-        y_true = np.vstack(y_true_list) # (N_test, 2) -> [density, void_ratio]
-        y_pred = np.vstack(y_pred_list) # (N_test, 2)
+        # Compute run-level peak forces: max over strain snapshots
+        base_peak_preds = []
+        for r in test_run_indices:
+            mask = [d.run_idx == r for d in test_graphs]
+            r_preds_f = base_preds[mask, 0]
+            base_peak_preds.append(np.max(r_preds_f))
+        base_peak_preds = np.array(base_peak_preds)
         
-        # Calculate Metrics: MAE, RMSE, R^2
-        mae_density = float(np.mean(np.abs(y_true[:, 0] - y_pred[:, 0])))
-        rmse_density = float(np.sqrt(np.mean((y_true[:, 0] - y_pred[:, 0])**2)))
-        r2_density = float(1 - np.sum((y_true[:, 0] - y_pred[:, 0])**2) / (np.sum((y_true[:, 0] - np.mean(y_true[:, 0]))**2) + 1e-8))
+        fold_results["baseline_gnn"].append({
+            "force": evaluate_predictions(test_f_true, base_preds[:, 0]),
+            "rho": evaluate_predictions(test_rho_true, base_preds[:, 1]),
+            "e": evaluate_predictions(test_e_true, base_preds[:, 2]),
+            "peak_force": evaluate_predictions(test_peak_forces_true, base_peak_preds)
+        })
         
-        mae_void = float(np.mean(np.abs(y_true[:, 1] - y_pred[:, 1])))
-        rmse_void = float(np.sqrt(np.mean((y_true[:, 1] - y_pred[:, 1])**2)))
-        r2_void = float(1 - np.sum((y_true[:, 1] - y_pred[:, 1])**2) / (np.sum((y_true[:, 1] - np.mean(y_true[:, 1]))**2) + 1e-8))
+        # ---------------------------------------------------------
+        # 5. ImprovedGNN Training
+        # ---------------------------------------------------------
+        model_imp = ImprovedGNN(in_dim=5, edge_dim=5, hidden_dim=64, global_dim=4, out_dim=3).to(device)
+        optimizer_imp = torch.optim.Adam(model_imp.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler_imp = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer_imp, T_max=epochs)
         
-        results[model_name] = {
-            "train_losses": train_losses,
-            "val_losses": val_losses,
-            "train_time_sec": train_time,
-            "inference_time_sec_per_sample": inf_time,
-            "y_true": y_true.tolist(),
-            "y_pred": y_pred.tolist(),
-            "metrics": {
-                "density_mae": mae_density,
-                "density_rmse": rmse_density,
-                "density_r2": r2_density,
-                "void_ratio_mae": mae_void,
-                "void_ratio_rmse": rmse_void,
-                "void_ratio_r2": r2_void
+        t0_imp = time.time()
+        for epoch in range(epochs):
+            model_imp.train()
+            for batch in train_loader:
+                batch = batch.to(device)
+                optimizer_imp.zero_grad()
+                y_norm = (batch.y - y_mean_t) / y_std_t
+                pred = model_imp(batch)
+                loss = criterion(pred, y_norm)
+                loss.backward()
+                optimizer_imp.step()
+            scheduler_imp.step()
+        timing_records["improved_gnn_train_sec"].append(time.time() - t0_imp)
+        
+        # Evaluate ImprovedGNN on test graphs
+        model_imp.eval()
+        imp_preds = []
+        with torch.no_grad():
+            for batch in test_loader:
+                batch = batch.to(device)
+                pred_norm = model_imp(batch)
+                pred_orig = pred_norm * y_std_t + y_mean_t
+                imp_preds.append(pred_orig.cpu().numpy())
+        imp_preds = np.concatenate(imp_preds, axis=0)
+        
+        # Compute run-level peak forces
+        imp_peak_preds = []
+        for r in test_run_indices:
+            mask = [d.run_idx == r for d in test_graphs]
+            r_preds_f = imp_preds[mask, 0]
+            imp_peak_preds.append(np.max(r_preds_f))
+        imp_peak_preds = np.array(imp_peak_preds)
+        
+        fold_results["improved_gnn"].append({
+            "force": evaluate_predictions(test_f_true, imp_preds[:, 0]),
+            "rho": evaluate_predictions(test_rho_true, imp_preds[:, 1]),
+            "e": evaluate_predictions(test_e_true, imp_preds[:, 2]),
+            "peak_force": evaluate_predictions(test_peak_forces_true, imp_peak_preds)
+        })
+        
+        print(f"  [Fold Complete] BaselineGNN Force R^2: {fold_results['baseline_gnn'][-1]['force']['r2']:.4f} | ImprovedGNN Force R^2: {fold_results['improved_gnn'][-1]['force']['r2']:.4f}")
+        print(f"                  BaselineGNN Peak F R^2: {fold_results['baseline_gnn'][-1]['peak_force']['r2']:.4f} | ImprovedGNN Peak F R^2: {fold_results['improved_gnn'][-1]['peak_force']['r2']:.4f}")
+        print(f"                  Closed-Form rho R^2: {fold_results['closed_form'][-1]['rho']['r2']:.4f} | Closed-Form e R^2: {fold_results['closed_form'][-1]['e']['r2']:.4f}")
+
+    # -------------------------------------------------------------
+    # Aggregate Metrics Across All 4 Folds
+    # -------------------------------------------------------------
+    print("\n" + "=" * 80)
+    print("4-FOLD GROUPED CROSS-VALIDATION FINAL BENCHMARK RESULTS")
+    print("=" * 80)
+    
+    summary = {}
+    for model_name in models_to_test:
+        summary[model_name] = {}
+        for target in ["peak_force", "force", "rho", "e"]:
+            r2_vals = [fold_results[model_name][f][target]["r2"] for f in range(4)]
+            rmse_vals = [fold_results[model_name][f][target]["rmse"] for f in range(4)]
+            mae_vals = [fold_results[model_name][f][target]["mae"] for f in range(4)]
+            summary[model_name][target] = {
+                "r2_mean": float(np.mean(r2_vals)),
+                "r2_std": float(np.std(r2_vals)),
+                "rmse_mean": float(np.mean(rmse_vals)),
+                "rmse_std": float(np.std(rmse_vals)),
+                "mae_mean": float(np.mean(mae_vals)),
+                "mae_std": float(np.std(mae_vals))
             }
-        }
+            
+    # Save results to json
+    os.makedirs("models", exist_ok=True)
+    out_json = {
+        "summary": summary,
+        "fold_results": fold_results,
+        "timing_records": timing_records
+    }
+    with open("models/cv_benchmark_results.json", "w") as f:
+        json.dump(out_json, f, indent=2)
+    print("Saved benchmark results to models/cv_benchmark_results.json")
+    
+    # Print formatted markdown table
+    print("\n### Cross-Validation Performance Summary Table (Mean +/- Std Across 4 Folds)\n")
+    print("| Model Architecture | Peak Force F_peak R^2 | F(eps) Curve R^2 | Bulk Density rho_b R^2 | Void Ratio e R^2 |")
+    print("| :--- | :---: | :---: | :---: | :---: |")
+    
+    def fmt_cell(m_dict, target):
+        r2_m = m_dict[target]["r2_mean"]
+        r2_s = m_dict[target]["r2_std"]
+        return f"${r2_m:.4f} \\pm {r2_s:.4f}$"
         
-        print(f"[{model_name} Test Results] Density R²: {r2_density:.4f}, MAE: {mae_density:.2f} kg/m³ | Void Ratio R²: {r2_void:.4f}, MAE: {mae_void:.4f}")
-        
-    # Save training results
-    res_path = os.path.join(base_dir, "models", "training_results.json")
-    with open(res_path, "w") as f:
-        json.dump(results, f, indent=2)
-        
-    print(f"\n=== Training Complete! Results saved to {res_path} ===")
-    return results
+    print(f"| **Closed-Form Formula** | *N/A (kinematic)* | *N/A (kinematic)* | **{fmt_cell(summary['closed_form'], 'rho')}** | **{fmt_cell(summary['closed_form'], 'e')}** |")
+    print(f"| **Mean Predictor** | {fmt_cell(summary['mean_predictor'], 'peak_force')} | {fmt_cell(summary['mean_predictor'], 'force')} | {fmt_cell(summary['mean_predictor'], 'rho')} | {fmt_cell(summary['mean_predictor'], 'e')} |")
+    print(f"| **Linear Ridge Regression** | {fmt_cell(summary['linear_regression'], 'peak_force')} | {fmt_cell(summary['linear_regression'], 'force')} | {fmt_cell(summary['linear_regression'], 'rho')} | {fmt_cell(summary['linear_regression'], 'e')} |")
+    print(f"| **BaselineGNN** (64-dim) | {fmt_cell(summary['baseline_gnn'], 'peak_force')} | {fmt_cell(summary['baseline_gnn'], 'force')} | {fmt_cell(summary['baseline_gnn'], 'rho')} | {fmt_cell(summary['baseline_gnn'], 'e')} |")
+    print(f"| **ImprovedGNN** (64-dim, u-injected) | **{fmt_cell(summary['improved_gnn'], 'peak_force')}** | **{fmt_cell(summary['improved_gnn'], 'force')}** | {fmt_cell(summary['improved_gnn'], 'rho')} | {fmt_cell(summary['improved_gnn'], 'e')} |")
+    
+    # Save the trained ImprovedGNN model weights for downstream evaluation
+    os.makedirs("models/checkpoints", exist_ok=True)
+    torch.save(model_imp.state_dict(), "models/checkpoints/ImprovedGNN_best.pth")
+    torch.save(model_base.state_dict(), "models/checkpoints/BaselineGNN_best.pth")
+    print("\nSaved best model checkpoints to models/checkpoints/")
+    return summary
 
 if __name__ == "__main__":
-    train_and_evaluate(epochs=200, batch_size=8)
+    run_cross_validation(epochs=70, batch_size=32, lr=1e-3, weight_decay=1e-4)

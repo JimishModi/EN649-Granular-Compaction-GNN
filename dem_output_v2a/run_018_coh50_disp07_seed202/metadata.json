@@ -1,0 +1,20 @@
+{
+  "run_id": "run_018_coh50_disp07_seed202",
+  "cohesion": 50.0,
+  "displacement": 0.07,
+  "seed": 202,
+  "num_particles": 430,
+  "settled_bed_height": 0.08235777789536608,
+  "phi_settled": 0.5579128669480593,
+  "e_settled": 0.7923945820971686,
+  "final_piston_height": 0.07659273344269057,
+  "final_void_ratio": 0.6669269613503693,
+  "final_bulk_density": 1499.7657713657488,
+  "peak_wall_force": 49.717596883916016,
+  "elapsed_seconds": 25.01278519630432,
+  "box_bounds": [
+    0.07,
+    0.07,
+    0.07659273344269057
+  ]
+}

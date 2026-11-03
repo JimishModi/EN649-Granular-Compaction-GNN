@@ -1,0 +1,32 @@
+{
+  "run_id": "run_007_coh0_seed77",
+  "cohesion": 0.0,
+  "max_strain": 0.13,
+  "seed": 77,
+  "num_particles": 440,
+  "settled_bed_height": 0.09119762523904247,
+  "phi_settled": 0.5155510660242418,
+  "e_settled": 0.9396720633547847,
+  "settled_overlap_ratio": 0.023031594237543987,
+  "settled_coordination": 4.359090909090909,
+  "final_piston_height": 0.07934262523904247,
+  "final_void_ratio": 0.6875293978983302,
+  "final_bulk_density": 1481.4556730765878,
+  "peak_wall_force": 73.21205651073288,
+  "peak_axial_stress": 14941.236022598545,
+  "final_coordination": 5.527272727272727,
+  "final_tensile_fraction": 0.011513157894736841,
+  "final_elastic_energy": 0.12986046024794112,
+  "mean_inertial_number": 0.03900803928255828,
+  "gamma_work_of_adhesion": 0.0,
+  "f_pull_off": 0.0,
+  "bond_number": 0.0,
+  "settle_wall_time_sec": 14.541364431381226,
+  "compact_wall_time_sec": 5.046111106872559,
+  "elapsed_seconds": 23.560592651367188,
+  "box_bounds": [
+    0.07,
+    0.07,
+    0.07934262523904247
+  ]
+}

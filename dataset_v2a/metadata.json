@@ -1,0 +1,1072 @@
+{
+  "num_samples": 48,
+  "cohesion_levels": [
+    0.0,
+    50.0,
+    100.0,
+    150.0
+  ],
+  "displacement_levels": [
+    0.04,
+    0.07,
+    0.1,
+    0.13
+  ],
+  "mean_void_ratio": 0.6306004222031244,
+  "std_void_ratio": 0.09978773507378616,
+  "mean_bulk_density": 1538.9663350413073,
+  "std_bulk_density": 94.80575466658821,
+  "connectivity_radius": 0.02,
+  "sequence_length": 31,
+  "dim": 3,
+  "split_indices": {
+    "train": [
+      37,
+      30,
+      45,
+      34,
+      5,
+      47,
+      44,
+      24,
+      20,
+      28,
+      17,
+      43,
+      18,
+      7,
+      4,
+      38,
+      29,
+      21,
+      32,
+      9,
+      25,
+      23,
+      39,
+      16,
+      40,
+      27,
+      15,
+      31,
+      42,
+      26,
+      10,
+      3,
+      41,
+      6,
+      11,
+      22,
+      19,
+      35
+    ],
+    "valid": [
+      0,
+      12,
+      14,
+      46,
+      2
+    ],
+    "test": [
+      36,
+      33,
+      1,
+      13,
+      8
+    ]
+  },
+  "train_target_stats": {
+    "density_mean": 1545.6713528340679,
+    "density_std": 93.15555729419492,
+    "void_ratio_mean": 0.6232769103935468,
+    "void_ratio_std": 0.09736542675459268
+  },
+  "normalization_stats": {
+    "velocity": {
+      "mean": [
+        0.002547713674859112,
+        0.005511999039273551,
+        -0.015819312144286533
+      ],
+      "std": [
+        0.022649616685425984,
+        0.02768799434830002,
+        0.03696557638574482
+      ]
+    },
+    "acceleration": {
+      "mean": [
+        0.00010314802752148593,
+        0.00023125909288588615,
+        -0.00044432022349879467
+      ],
+      "std": [
+        0.015021545108520462,
+        0.017862910552807826,
+        0.02515946634585436
+      ]
+    }
+  },
+  "runs": [
+    {
+      "run_id": "run_001_coh0_disp04_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.04,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.0698314185587876,
+      "phi_settled": 0.5967827823348881,
+      "e_settled": 0.6756515596638714,
+      "final_piston_height": 0.06703816181644401,
+      "final_void_ratio": 0.6086254972775061,
+      "final_bulk_density": 1554.1218289969213,
+      "peak_wall_force": 50.30168982690385,
+      "elapsed_seconds": 7.093054294586182,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06703816181644401
+      ]
+    },
+    {
+      "run_id": "run_002_coh0_disp04_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.04,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08265029336705179,
+      "phi_settled": 0.5300807091745365,
+      "e_settled": 0.886505173065515,
+      "final_piston_height": 0.07934428163236971,
+      "final_void_ratio": 0.8110449661428943,
+      "final_bulk_density": 1380.4185134753557,
+      "peak_wall_force": 3.3310771589361705,
+      "elapsed_seconds": 7.715846538543701,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07934428163236971
+      ]
+    },
+    {
+      "run_id": "run_003_coh0_disp04_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.04,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08252767579001773,
+      "phi_settled": 0.556764304110367,
+      "e_settled": 0.7960921571613017,
+      "final_piston_height": 0.07922656875841702,
+      "final_void_ratio": 0.7242484708748497,
+      "final_bulk_density": 1449.9070419540808,
+      "peak_wall_force": 26.8864279966092,
+      "elapsed_seconds": 8.763132810592651,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07922656875841702
+      ]
+    },
+    {
+      "run_id": "run_004_coh0_disp07_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.07,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.0698314185587876,
+      "phi_settled": 0.5967827823348881,
+      "e_settled": 0.6756515596638714,
+      "final_piston_height": 0.0649432192596811,
+      "final_void_ratio": 0.5583559504876074,
+      "final_bulk_density": 1604.2547912226044,
+      "peak_wall_force": 116.83032263419912,
+      "elapsed_seconds": 7.709992170333862,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.0649432192596811
+      ]
+    },
+    {
+      "run_id": "run_005_coh0_disp07_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.07,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08265029336705179,
+      "phi_settled": 0.5300807091745365,
+      "e_settled": 0.886505173065515,
+      "final_piston_height": 0.07686477283135965,
+      "final_void_ratio": 0.7544498109509626,
+      "final_bulk_density": 1424.9481429422751,
+      "peak_wall_force": 6.913870908740812,
+      "elapsed_seconds": 23.208383321762085,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07686477283135965
+      ]
+    },
+    {
+      "run_id": "run_006_coh0_disp07_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.07,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08252767579001773,
+      "phi_settled": 0.556764304110367,
+      "e_settled": 0.7960921571613017,
+      "final_piston_height": 0.07675073848472284,
+      "final_void_ratio": 0.6703657061601489,
+      "final_bulk_density": 1496.6782368557015,
+      "peak_wall_force": 48.662515509667095,
+      "elapsed_seconds": 24.36330509185791,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07675073848472284
+      ]
+    },
+    {
+      "run_id": "run_007_coh0_disp10_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.1,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.0698314185587876,
+      "phi_settled": 0.5967827823348881,
+      "e_settled": 0.6756515596638714,
+      "final_piston_height": 0.0628482767029182,
+      "final_void_ratio": 0.5080864036977087,
+      "final_bulk_density": 1657.7299509299978,
+      "peak_wall_force": 187.2001353456321,
+      "elapsed_seconds": 23.355022192001343,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.0628482767029182
+      ]
+    },
+    {
+      "run_id": "run_008_coh0_disp10_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.1,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08265029336705179,
+      "phi_settled": 0.5300807091745365,
+      "e_settled": 0.886505173065515,
+      "final_piston_height": 0.0743852640303517,
+      "final_void_ratio": 0.6978546557590795,
+      "final_bulk_density": 1472.446414373612,
+      "peak_wall_force": 11.67607100359158,
+      "elapsed_seconds": 23.576111316680908,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.0743852640303517
+      ]
+    },
+    {
+      "run_id": "run_009_coh0_disp10_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.1,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08252767579001773,
+      "phi_settled": 0.556764304110367,
+      "e_settled": 0.7960921571613017,
+      "final_piston_height": 0.07427490821101596,
+      "final_void_ratio": 0.6164829414451715,
+      "final_bulk_density": 1546.5675114176863,
+      "peak_wall_force": 67.54529892935638,
+      "elapsed_seconds": 23.713773250579834,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07427490821101596
+      ]
+    },
+    {
+      "run_id": "run_010_coh0_disp13_seed42",
+      "cohesion": 0.0,
+      "displacement": 0.13,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.0698314185587876,
+      "phi_settled": 0.5967827823348881,
+      "e_settled": 0.6756515596638714,
+      "final_piston_height": 0.0607533341461533,
+      "final_void_ratio": 0.4578168569077618,
+      "final_bulk_density": 1714.8930526862323,
+      "peak_wall_force": 267.0544242474598,
+      "elapsed_seconds": 22.435059547424316,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.0607533341461533
+      ]
+    },
+    {
+      "run_id": "run_011_coh0_disp13_seed101",
+      "cohesion": 0.0,
+      "displacement": 0.13,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08265029336705179,
+      "phi_settled": 0.5300807091745365,
+      "e_settled": 0.886505173065515,
+      "final_piston_height": 0.07190575522934375,
+      "final_void_ratio": 0.6412595005671965,
+      "final_bulk_density": 1523.220428662277,
+      "peak_wall_force": 20.962964665642527,
+      "elapsed_seconds": 23.00508141517639,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07190575522934375
+      ]
+    },
+    {
+      "run_id": "run_012_coh0_disp13_seed202",
+      "cohesion": 0.0,
+      "displacement": 0.13,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08252767579001773,
+      "phi_settled": 0.556764304110367,
+      "e_settled": 0.7960921571613017,
+      "final_piston_height": 0.07179907793731831,
+      "final_void_ratio": 0.5626001767303954,
+      "final_bulk_density": 1599.8974256044387,
+      "peak_wall_force": 106.44470169127855,
+      "elapsed_seconds": 23.770508527755737,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07179907793731831
+      ]
+    },
+    {
+      "run_id": "run_013_coh50_disp04_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.04,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06969950839976102,
+      "phi_settled": 0.5979122266240876,
+      "e_settled": 0.6724862872367857,
+      "final_piston_height": 0.06691152806377093,
+      "final_void_ratio": 0.6055868357473226,
+      "final_bulk_density": 1557.0630901668867,
+      "peak_wall_force": 51.85666017009656,
+      "elapsed_seconds": 24.363895654678345,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06691152806377093
+      ]
+    },
+    {
+      "run_id": "run_014_coh50_disp04_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.04,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08259125772062074,
+      "phi_settled": 0.5304596071135,
+      "e_settled": 0.8851576757022226,
+      "final_piston_height": 0.07928760741180389,
+      "final_void_ratio": 0.809751368674316,
+      "final_bulk_density": 1381.405226857934,
+      "peak_wall_force": 3.613323043800124,
+      "elapsed_seconds": 24.92348861694336,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07928760741180389
+      ]
+    },
+    {
+      "run_id": "run_015_coh50_disp04_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.04,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08235777789536608,
+      "phi_settled": 0.5579128669480593,
+      "e_settled": 0.7923945820971686,
+      "final_piston_height": 0.0790634667795515,
+      "final_void_ratio": 0.7206987988132832,
+      "final_bulk_density": 1452.8980910105702,
+      "peak_wall_force": 29.58114293486605,
+      "elapsed_seconds": 26.18977952003479,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.0790634667795515
+      ]
+    },
+    {
+      "run_id": "run_016_coh50_disp07_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.07,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06969950839976102,
+      "phi_settled": 0.5979122266240876,
+      "e_settled": 0.6724862872367857,
+      "final_piston_height": 0.06482054281178357,
+      "final_void_ratio": 0.5554122471303501,
+      "final_bulk_density": 1607.2909317850376,
+      "peak_wall_force": 122.5155258568926,
+      "elapsed_seconds": 24.371607065200806,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06482054281178357
+      ]
+    },
+    {
+      "run_id": "run_017_coh50_disp07_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.07,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08259125772062074,
+      "phi_settled": 0.5304596071135,
+      "e_settled": 0.8851576757022226,
+      "final_piston_height": 0.07680986968017729,
+      "final_void_ratio": 0.753196638403067,
+      "final_bulk_density": 1425.9666857889786,
+      "peak_wall_force": 7.251699804729746,
+      "elapsed_seconds": 24.51212763786316,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07680986968017729
+      ]
+    },
+    {
+      "run_id": "run_018_coh50_disp07_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.07,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08235777789536608,
+      "phi_settled": 0.5579128669480593,
+      "e_settled": 0.7923945820971686,
+      "final_piston_height": 0.07659273344269057,
+      "final_void_ratio": 0.6669269613503693,
+      "final_bulk_density": 1499.7657713657488,
+      "peak_wall_force": 49.717596883916016,
+      "elapsed_seconds": 25.01278519630432,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07659273344269057
+      ]
+    },
+    {
+      "run_id": "run_019_coh50_disp10_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.1,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06969950839976102,
+      "phi_settled": 0.5979122266240876,
+      "e_settled": 0.6724862872367857,
+      "final_piston_height": 0.06272955755978492,
+      "final_void_ratio": 0.5052376585131072,
+      "final_bulk_density": 1660.8672961780212,
+      "peak_wall_force": 194.49836459056905,
+      "elapsed_seconds": 24.133687496185303,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06272955755978492
+      ]
+    },
+    {
+      "run_id": "run_020_coh50_disp10_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.1,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08259125772062074,
+      "phi_settled": 0.5304596071135,
+      "e_settled": 0.8851576757022226,
+      "final_piston_height": 0.07433213194855867,
+      "final_void_ratio": 0.6966419081320003,
+      "final_bulk_density": 1473.4989086486114,
+      "peak_wall_force": 12.188722714028899,
+      "elapsed_seconds": 24.647282361984253,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07433213194855867
+      ]
+    },
+    {
+      "run_id": "run_021_coh50_disp10_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.1,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08235777789536608,
+      "phi_settled": 0.5579128669480593,
+      "e_settled": 0.7923945820971686,
+      "final_piston_height": 0.07412200010582964,
+      "final_void_ratio": 0.6131551238874555,
+      "final_bulk_density": 1549.7579637446058,
+      "peak_wall_force": 71.44606301737156,
+      "elapsed_seconds": 25.9514479637146,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07412200010582964
+      ]
+    },
+    {
+      "run_id": "run_022_coh50_disp13_seed42",
+      "cohesion": 50.0,
+      "displacement": 0.13,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06969950839976102,
+      "phi_settled": 0.5979122266240876,
+      "e_settled": 0.6724862872367857,
+      "final_piston_height": 0.06063857230779209,
+      "final_void_ratio": 0.45506306989600354,
+      "final_bulk_density": 1718.1385822531254,
+      "peak_wall_force": 279.0268756842938,
+      "elapsed_seconds": 24.77338480949402,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06063857230779209
+      ]
+    },
+    {
+      "run_id": "run_023_coh50_disp13_seed101",
+      "cohesion": 50.0,
+      "displacement": 0.13,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08259125772062074,
+      "phi_settled": 0.5304596071135,
+      "e_settled": 0.8851576757022226,
+      "final_piston_height": 0.07185439421694516,
+      "final_void_ratio": 0.6400871778610505,
+      "final_bulk_density": 1524.3092158432823,
+      "peak_wall_force": 21.856171018653413,
+      "elapsed_seconds": 24.8639178276062,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07185439421694516
+      ]
+    },
+    {
+      "run_id": "run_024_coh50_disp13_seed202",
+      "cohesion": 50.0,
+      "displacement": 0.13,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08235777789536608,
+      "phi_settled": 0.5579128669480593,
+      "e_settled": 0.7923945820971686,
+      "final_piston_height": 0.07165126676896871,
+      "final_void_ratio": 0.5593832864245415,
+      "final_bulk_density": 1603.1978935289014,
+      "peak_wall_force": 101.41656458876938,
+      "elapsed_seconds": 25.29025626182556,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07165126676896871
+      ]
+    },
+    {
+      "run_id": "run_025_coh100_disp04_seed42",
+      "cohesion": 100.0,
+      "displacement": 0.04,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06955925377019935,
+      "phi_settled": 0.5991178168699607,
+      "e_settled": 0.6691207836622415,
+      "final_piston_height": 0.06677688361940066,
+      "final_void_ratio": 0.6023559523159746,
+      "final_bulk_density": 1560.2026480986387,
+      "peak_wall_force": 54.40709997898711,
+      "elapsed_seconds": 26.198315143585205,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06677688361940066
+      ]
+    },
+    {
+      "run_id": "run_026_coh100_disp04_seed101",
+      "cohesion": 100.0,
+      "displacement": 0.04,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08252045702200092,
+      "phi_settled": 0.5309147295416662,
+      "e_settled": 0.8835416392822454,
+      "final_piston_height": 0.07921963874112956,
+      "final_void_ratio": 0.8081999737111536,
+      "final_bulk_density": 1382.5904415146044,
+      "peak_wall_force": 3.637726570501417,
+      "elapsed_seconds": 26.603073596954346,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07921963874112956
+      ]
+    },
+    {
+      "run_id": "run_027_coh100_disp04_seed202",
+      "cohesion": 100.0,
+      "displacement": 0.04,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08224659033149591,
+      "phi_settled": 0.5586670984885738,
+      "e_settled": 0.7899747500889436,
+      "final_piston_height": 0.07895672671823607,
+      "final_void_ratio": 0.718375760085386,
+      "final_bulk_density": 1454.8622356473275,
+      "peak_wall_force": 29.820804963150852,
+      "elapsed_seconds": 27.40620470046997,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07895672671823607
+      ]
+    },
+    {
+      "run_id": "run_028_coh100_disp07_seed42",
+      "cohesion": 100.0,
+      "displacement": 0.07,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06955925377019935,
+      "phi_settled": 0.5991178168699607,
+      "e_settled": 0.6691207836622415,
+      "final_piston_height": 0.06469010600628539,
+      "final_void_ratio": 0.5522823288058842,
+      "final_bulk_density": 1610.5317657794644,
+      "peak_wall_force": 125.9065360671318,
+      "elapsed_seconds": 26.372007131576538,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06469010600628539
+      ]
+    },
+    {
+      "run_id": "run_029_coh100_disp07_seed101",
+      "cohesion": 100.0,
+      "displacement": 0.07,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08252045702200092,
+      "phi_settled": 0.5309147295416662,
+      "e_settled": 0.8835416392822454,
+      "final_piston_height": 0.07674402503046085,
+      "final_void_ratio": 0.7516937245324883,
+      "final_bulk_density": 1427.190133176522,
+      "peak_wall_force": 7.3818858386308595,
+      "elapsed_seconds": 23.841091632843018,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07674402503046085
+      ]
+    },
+    {
+      "run_id": "run_030_coh100_disp07_seed202",
+      "cohesion": 100.0,
+      "displacement": 0.07,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08224659033149591,
+      "phi_settled": 0.5586670984885738,
+      "e_settled": 0.7899747500889436,
+      "final_piston_height": 0.07648932900829465,
+      "final_void_ratio": 0.6646765175827928,
+      "final_bulk_density": 1501.793275506851,
+      "peak_wall_force": 52.90332403205833,
+      "elapsed_seconds": 24.33054256439209,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07648932900829465
+      ]
+    },
+    {
+      "run_id": "run_031_coh100_disp10_seed42",
+      "cohesion": 100.0,
+      "displacement": 0.1,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06955925377019935,
+      "phi_settled": 0.5991178168699607,
+      "e_settled": 0.6691207836622415,
+      "final_piston_height": 0.06260332839317942,
+      "final_void_ratio": 0.5022087052960174,
+      "final_bulk_density": 1664.2161579721128,
+      "peak_wall_force": 196.07850364742484,
+      "elapsed_seconds": 23.39175581932068,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06260332839317942
+      ]
+    },
+    {
+      "run_id": "run_032_coh100_disp10_seed101",
+      "cohesion": 100.0,
+      "displacement": 0.1,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08252045702200092,
+      "phi_settled": 0.5309147295416662,
+      "e_settled": 0.8835416392822454,
+      "final_piston_height": 0.07426841131980169,
+      "final_void_ratio": 0.6951874753540408,
+      "final_bulk_density": 1474.7631376157221,
+      "peak_wall_force": 12.18715331211888,
+      "elapsed_seconds": 23.821167707443237,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07426841131980169
+      ]
+    },
+    {
+      "run_id": "run_033_coh100_disp10_seed202",
+      "cohesion": 100.0,
+      "displacement": 0.1,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08224659033149591,
+      "phi_settled": 0.5586670984885738,
+      "e_settled": 0.7899747500889436,
+      "final_piston_height": 0.07402193129835423,
+      "final_void_ratio": 0.6109772750802215,
+      "final_bulk_density": 1551.8530513569835,
+      "peak_wall_force": 75.21384878446183,
+      "elapsed_seconds": 14.188030242919922,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07402193129835423
+      ]
+    },
+    {
+      "run_id": "run_034_coh100_disp13_seed42",
+      "cohesion": 100.0,
+      "displacement": 0.13,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06955925377019935,
+      "phi_settled": 0.5991178168699607,
+      "e_settled": 0.6691207836622415,
+      "final_piston_height": 0.06051655078007343,
+      "final_void_ratio": 0.4521350817861499,
+      "final_bulk_density": 1721.602922040117,
+      "peak_wall_force": 282.1413598953078,
+      "elapsed_seconds": 12.645410537719727,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06051655078007343
+      ]
+    },
+    {
+      "run_id": "run_035_coh100_disp13_seed101",
+      "cohesion": 100.0,
+      "displacement": 0.13,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08252045702200092,
+      "phi_settled": 0.5309147295416662,
+      "e_settled": 0.8835416392822454,
+      "final_piston_height": 0.07179279760914817,
+      "final_void_ratio": 0.6386812261757218,
+      "final_bulk_density": 1525.6170389126773,
+      "peak_wall_force": 21.817308290316127,
+      "elapsed_seconds": 12.435134649276733,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07179279760914817
+      ]
+    },
+    {
+      "run_id": "run_036_coh100_disp13_seed202",
+      "cohesion": 100.0,
+      "displacement": 0.13,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08224659033149591,
+      "phi_settled": 0.5586670984885738,
+      "e_settled": 0.7899747500889436,
+      "final_piston_height": 0.07155453358840144,
+      "final_void_ratio": 0.5572780325773811,
+      "final_bulk_density": 1605.3652255418788,
+      "peak_wall_force": 115.09007921896246,
+      "elapsed_seconds": 11.578720808029175,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07155453358840144
+      ]
+    },
+    {
+      "run_id": "run_037_coh150_disp04_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.04,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06944374329184733,
+      "phi_settled": 0.6001143700846258,
+      "e_settled": 0.666349032533555,
+      "final_piston_height": 0.06666599356017927,
+      "final_void_ratio": 0.599695071232353,
+      "final_bulk_density": 1562.7978387619094,
+      "peak_wall_force": 56.57416150006496,
+      "elapsed_seconds": 2.91520357131958,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06666599356017927
+      ]
+    },
+    {
+      "run_id": "run_038_coh150_disp04_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.04,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08238687843519105,
+      "phi_settled": 0.5317755321431934,
+      "e_settled": 0.8804926882772143,
+      "final_piston_height": 0.07909140329778902,
+      "final_void_ratio": 0.8052729807462536,
+      "final_bulk_density": 1384.8321149561348,
+      "peak_wall_force": 3.7688088691368784,
+      "elapsed_seconds": 2.965799570083618,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07909140329778902
+      ]
+    },
+    {
+      "run_id": "run_039_coh150_disp04_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.04,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08211713012142582,
+      "phi_settled": 0.5595478545479078,
+      "e_settled": 0.7871572411048914,
+      "final_piston_height": 0.0788324449165754,
+      "final_void_ratio": 0.7156709514608397,
+      "final_bulk_density": 1457.155871218388,
+      "peak_wall_force": 29.880952029635054,
+      "elapsed_seconds": 3.0978283882141113,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.0788324449165754
+      ]
+    },
+    {
+      "run_id": "run_040_coh150_disp07_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.07,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06944374329184733,
+      "phi_settled": 0.6001143700846258,
+      "e_settled": 0.666349032533555,
+      "final_piston_height": 0.06458268126142303,
+      "final_void_ratio": 0.5497046002563266,
+      "final_bulk_density": 1613.210672270374,
+      "peak_wall_force": 128.06327497195275,
+      "elapsed_seconds": 2.8298635482788086,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06458268126142303
+      ]
+    },
+    {
+      "run_id": "run_041_coh150_disp07_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.07,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08238687843519105,
+      "phi_settled": 0.5317755321431934,
+      "e_settled": 0.8804926882772143,
+      "final_piston_height": 0.07661979694472767,
+      "final_void_ratio": 0.7488582000978092,
+      "final_bulk_density": 1429.5041186644985,
+      "peak_wall_force": 7.542081191640905,
+      "elapsed_seconds": 2.8572916984558105,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07661979694472767
+      ]
+    },
+    {
+      "run_id": "run_042_coh150_disp07_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.07,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08211713012142582,
+      "phi_settled": 0.5595478545479078,
+      "e_settled": 0.7871572411048914,
+      "final_piston_height": 0.07636893101293238,
+      "final_void_ratio": 0.6620562342276873,
+      "final_bulk_density": 1504.1608993222078,
+      "peak_wall_force": 52.02992022771284,
+      "elapsed_seconds": 3.006460666656494,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07636893101293238
+      ]
+    },
+    {
+      "run_id": "run_043_coh150_disp10_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.1,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06944374329184733,
+      "phi_settled": 0.6001143700846258,
+      "e_settled": 0.666349032533555,
+      "final_piston_height": 0.06249936896266678,
+      "final_void_ratio": 0.4997141292802999,
+      "final_bulk_density": 1666.9843613460712,
+      "peak_wall_force": 198.64540481127165,
+      "elapsed_seconds": 2.7704222202301025,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06249936896266678
+      ]
+    },
+    {
+      "run_id": "run_044_coh150_disp10_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.1,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08238687843519105,
+      "phi_settled": 0.5317755321431934,
+      "e_settled": 0.8804926882772143,
+      "final_piston_height": 0.07414819059167195,
+      "final_void_ratio": 0.6924434194494928,
+      "final_bulk_density": 1477.154255953315,
+      "peak_wall_force": 12.425192628180525,
+      "elapsed_seconds": 2.9051012992858887,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07414819059167195
+      ]
+    },
+    {
+      "run_id": "run_045_coh150_disp10_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.1,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08211713012142582,
+      "phi_settled": 0.5595478545479078,
+      "e_settled": 0.7871572411048914,
+      "final_piston_height": 0.07390541710928936,
+      "final_void_ratio": 0.6084415169945353,
+      "final_bulk_density": 1554.2995959662824,
+      "peak_wall_force": 72.62998664028174,
+      "elapsed_seconds": 3.0423221588134766,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07390541710928936
+      ]
+    },
+    {
+      "run_id": "run_046_coh150_disp13_seed42",
+      "cohesion": 150.0,
+      "displacement": 0.13,
+      "seed": 42,
+      "num_particles": 390,
+      "settled_bed_height": 0.06944374329184733,
+      "phi_settled": 0.6001143700846258,
+      "e_settled": 0.666349032533555,
+      "final_piston_height": 0.06041605666391053,
+      "final_void_ratio": 0.4497236583042735,
+      "final_bulk_density": 1724.4665807028516,
+      "peak_wall_force": 277.7934144540421,
+      "elapsed_seconds": 2.8243300914764404,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.06041605666391053
+      ]
+    },
+    {
+      "run_id": "run_047_coh150_disp13_seed101",
+      "cohesion": 150.0,
+      "displacement": 0.13,
+      "seed": 101,
+      "num_particles": 410,
+      "settled_bed_height": 0.08238687843519105,
+      "phi_settled": 0.5317755321431934,
+      "e_settled": 0.8804926882772143,
+      "final_piston_height": 0.07167658423862405,
+      "final_void_ratio": 0.6360286388013553,
+      "final_bulk_density": 1528.0906096067106,
+      "peak_wall_force": 22.325175011748225,
+      "elapsed_seconds": 2.939290761947632,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07167658423862405
+      ]
+    },
+    {
+      "run_id": "run_048_coh150_disp13_seed202",
+      "cohesion": 150.0,
+      "displacement": 0.13,
+      "seed": 202,
+      "num_particles": 430,
+      "settled_bed_height": 0.08211713012142582,
+      "phi_settled": 0.5595478545479078,
+      "e_settled": 0.7871572411048914,
+      "final_piston_height": 0.07144190320564633,
+      "final_void_ratio": 0.5548267997613833,
+      "final_bulk_density": 1607.8961337582239,
+      "peak_wall_force": 114.35763826496338,
+      "elapsed_seconds": 2.9674482345581055,
+      "box_bounds": [
+        0.07,
+        0.07,
+        0.07144190320564633
+      ]
+    }
+  ]
+}
