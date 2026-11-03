@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.pyc
 *$py.class
 
 # C extensions
@@ -25,6 +26,10 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
 
 # Virtual Environments
 env/
@@ -54,7 +59,10 @@ Thumbs.db
 # Logs and temporary files
 *.log
 *.tmp
+*.bak
+
+# Temporary / scratch directory
 scratch/
 
-# PyTorch training states / checkpoints (keep final models only)
+# Intermediate PyTorch training states (keep final models only)
 train_state-*.pt

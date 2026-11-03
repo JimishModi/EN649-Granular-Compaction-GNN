@@ -138,3 +138,4 @@ and evaluated against the disjoint 8-run test fold (Seeds 11 and 22, 135 graphs)
 1. **Sample Starvation at $N \le 8$**: With only 8 training runs, the model severely overfits and cannot generalize to unseen packing geometries ($R^2 < 0$), failing to predict peak forces.
 2. **Generalization Transition**: At $N = 16$ runs, the model crosses the generalization threshold ($R^2 = +0.3592$), cutting peak force error by $66\%$ ($23.06\text{ N} \to 7.79\text{ N}$).
 3. **Data Scaling Trajectory**: At $N = 24$ runs, peak force $R^2$ reaches $+0.7159$ with an RMSE of $5.19\text{ N}$. The steep, non-saturating slope of the learning curve indicates that the surrogate is actively learning the underlying contact physics and would achieve further convergence toward DEM ground truth with larger training sweeps ($N \ge 64$).
+
